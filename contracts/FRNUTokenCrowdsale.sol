@@ -50,7 +50,7 @@ contract FRNUTokenCrowdsale {
   }
 
   // low level token purchase function
-  function buyTokens(address beneficiary) public payable {
+  function buyTokens(address beneficiary) public payable returns (bool){
     require(beneficiary != 0x0);
     require(validPurchase());
 
@@ -66,6 +66,8 @@ contract FRNUTokenCrowdsale {
     TokenPurchase(msg.sender, beneficiary, weiAmount, tokens);
 
     forwardFunds();
+
+    return true;
   }
 
   // send ether to the fund collection wallet
