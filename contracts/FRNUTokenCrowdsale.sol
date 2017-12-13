@@ -33,7 +33,6 @@ contract FRNUTokenCrowdsale {
 
 
   function FRNUTokenCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, address tokenAddress) {
-    require(_startTime >= now);
     require(_endTime >= _startTime);
     require(_rate > 0);
     require(_wallet != 0x0);
