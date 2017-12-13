@@ -32,7 +32,7 @@ contract FRNUTokenCrowdsale {
   event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
 
 
-  function Crowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, address tokenAddress) {
+  function FRNUTokenCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, address tokenAddress) {
     require(_startTime >= now);
     require(_endTime >= _startTime);
     require(_rate > 0);
