@@ -8,7 +8,9 @@ module.exports = {
     staging: {
       host: 'localhost',
       port: 8545,
-      network_id: 'ropsten'
+      network_id: 'ropsten',
+      from: process.env.add1,
+      gas: 4612388
     }
   }
 };
