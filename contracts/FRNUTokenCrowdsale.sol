@@ -1,13 +1,13 @@
 pragma solidity ^0.4.11;
 
-import 'zeppelin/contracts/token/StandardToken.sol';
+import './FRNUToken.sol';
 import 'zeppelin/contracts/math/SafeMath.sol';
 
 contract FRNUTokenCrowdsale {
   using SafeMath for uint256;
 
   // The token being sold
-  StandardToken public token;
+  FRNUToken public token;
 
   // start and end timestamps where investments are allowed (both inclusive)
   uint256 public startTime;
@@ -37,7 +37,7 @@ contract FRNUTokenCrowdsale {
     require(_rate > 0);
     require(_wallet != 0x0);
 
-    token = StandardToken(tokenAddress);
+    token = FRNUToken(tokenAddress);
     startTime = _startTime;
     endTime = _endTime;
     rate = _rate;
@@ -62,7 +62,7 @@ contract FRNUTokenCrowdsale {
     // update state
     weiRaised = weiRaised.add(weiAmount);
 
-    token.transfer(beneficiary, tokens);
+    token.crowdsalePoolTransfer(beneficiary, tokens);
     TokenPurchase(msg.sender, beneficiary, weiAmount, tokens);
 
     forwardFunds();
