@@ -2,8 +2,9 @@ pragma solidity ^0.4.11;
 
 import 'zeppelin/contracts/token/StandardToken.sol';
 import 'zeppelin/contracts/math/SafeMath.sol';
+import 'zeppelin/contracts/ownership/Ownable.sol';
 
-contract FRNCoinCrowdsale {
+contract FRNCoinCrowdsale is Ownable {
   using SafeMath for uint256;
 
   // The token being sold
@@ -40,7 +41,7 @@ contract FRNCoinCrowdsale {
     address _wallet,
     address tokenAddress,
     address _tokenHolder
-  ) {
+  ) Ownable() {
     require(_endTime >= _startTime);
     require(_rate > 0);
     require(_wallet != 0x0);
