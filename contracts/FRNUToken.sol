@@ -15,6 +15,8 @@ contract FRNUToken is Ownable, StandardToken {
   uint public decimals;
   uint public transfersActiveAt;
   uint public insiderCliff;
+  address crowdsaleContractAddress;
+  address crowdsalePoolAddress;
 
   mapping(address => uint256) lockedBalances;
 
@@ -83,6 +85,28 @@ contract FRNUToken is Ownable, StandardToken {
     allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
     Transfer(_from, _to, _value);
     return true;
+  }
+
+  function configureCrowdsale(address _crowdsaleContractAddress, address _crowdsalePoolAddress) onlyOwner public {
+    crowdsaleContractAddress = _crowdsaleContractAddress;
+    crowdsalePoolAddress = _crowdsalePoolAddress;
+  }
+
+  function crowdsalePoolTransfer(address _to, uint _value) onlyCrowdsaleContract public returns (bool) {
+    require(_to != address(0));
+    require(_value > 0);
+
+    allowed[crowdsalePoolAddress][crowdsaleContractAddress].sub(_value);
+    balances[crowdsalePoolAddress].sub(_value);
+
+    balances[_to].add(_value);
+
+    return true;
+  }
+
+  modifier onlyCrowdsaleContract() {
+    require(msg.sender == crowdsaleContractAddress);
+    _;
   }
 
   function tradeableBalance(address _owner) public returns (uint tradeableBalance) {
