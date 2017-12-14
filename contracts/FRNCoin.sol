@@ -33,7 +33,7 @@ contract FRNCoin is BurnableToken, Ownable {
         name = "FRNCoin";
         symbol = "FRNC";
 
-        totalSupply = 100 ether;
+        totalSupply = 300000000 ether;
 
         decimals = 18;
 
