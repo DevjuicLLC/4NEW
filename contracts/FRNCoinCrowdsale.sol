@@ -60,11 +60,30 @@ contract FRNCoinCrowdsale is Ownable {
     buyTokens(msg.sender);
   }
 
-//price oo
-//pool oo
-//end oo
-//  ownable
+  function updateRate(uint256 _rate) onlyOwner external returns (bool) {
+    require(_rate > 0);
+    rate = _rate;
+    return true;
+  }
 
+  function updateTokenAddress(address _tokenAddress) onlyOwner external returns (bool) {
+    require(_tokenAddress != 0x0);
+    token = StandardToken(_tokenAddress);
+
+    return true;
+  }
+
+  function updateTokenPoolAddress(address _tokenHolder) onlyOwner external returns (bool) {
+    require(_tokenHolder != 0x0);
+    tokenPoolAddress = _tokenHolder;
+    return true;
+  }
+
+  function updateEndTime(uint256 _endTime) onlyOwner external returns (bool){
+    require(_endTime > startTime);
+    endTime = _endTime;
+    return true;
+  }
 
   // low level token purchase function
   function buyTokens(address beneficiary) public payable returns (bool){
