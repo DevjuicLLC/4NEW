@@ -31,7 +31,8 @@ module.exports = function(deployer) {
 
     return token.balanceOf.call(acc1);
   }).then((val) => {
-    token.transfer(sale.address, val)
+    token.configureCrowdsale(sale.address, acc1);
+    token.approve(sale.address, val);
   })
 
 };
