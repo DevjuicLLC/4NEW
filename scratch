@@ -1,0 +1,28 @@
+
+info = file
+
+acc = (await web3.eth.getAccounts())[0];
+
+contract = new web3.eth.Contract(info.abi);
+
+attr = [ Date.parse('Feb 28, 2018'),
+    170,
+    '0x00dd507844b0ddc585d1e5928f37586d81d56c33',
+    '0x1e89b045e633c80d2bd1e0dd6bb69a5e7fdfb21a',
+    '0x00dd507844b0ddc585d1e5928f37586d81d56c33']
+
+contract.deploy({ data: info.bytecode, arguments: attr }).send({from: acc}, (e, r) => transactionId = r )
+
+await web3.eth.getTransactionReceipt(transactionId)
+
+
+
+/////////////////////
+
+tokenInfo = file
+
+contract = new web3.eth.Contract(tokenInfo.abi)
+
+contract.deploy({ data: tokenInfo.bytecode }).send({from: acc}, (e,r) => transactionIdToken = r)
+
+await web3.eth.getTransactionReceipt(transactionIdToken)
