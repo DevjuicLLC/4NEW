@@ -66,6 +66,13 @@ contract FRNCoinCrowdsale is Ownable {
     return true;
   }
 
+  function updateWallet(address _wallet) onlyOwner external returns (bool) {
+    require(_wallet != 0x0);
+    wallet = _wallet;
+
+    return true;
+  }
+
   function updateTokenAddress(address _tokenAddress) onlyOwner external returns (bool) {
     require(_tokenAddress != 0x0);
     token = StandardToken(_tokenAddress);
