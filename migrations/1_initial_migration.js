@@ -9,5 +9,5 @@ module.exports = function(deployer) {
     web3.personal.unlockAccount(acc1, pw);
   }
 
-  deployer.deploy(Migrations, { overwrite: false });
+  deployer.deploy(Migrations);
 };

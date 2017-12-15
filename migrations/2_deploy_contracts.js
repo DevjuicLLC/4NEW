@@ -9,14 +9,21 @@ module.exports = function(deployer) {
     web3.personal.unlockAccount(acc1, pw);
   }
 
-  // deployer.deploy(FRNCoin)
+  deployer.then(() => {
+   return deployer.deploy(FRNCoin)
+  }).then(() => FRNCoin.deployed()).then((i) => {
+    coin = i;
 
-  deployer.deploy(FRNCoinCrowdsale,
-    1,
-    Date.parse('Feb 28, 2018'),
-    170,
-    acc1,
-    '0xaccaf49428bce5e5787c6ff86c49f32769af8360',
-    acc1
-  );
+    return deployer.deploy(FRNCoinCrowdsale,
+      Date.parse('Feb 28, 2018'),
+      170,
+      acc1,
+      coin.address,
+      acc1
+    );
+  }).then(() => FRNCoinCrowdsale.deployed()).then((i) => {
+    sale = i;
+
+    coin.approve(sale.address, web3.toWei('100000000'))
+  })
 };
