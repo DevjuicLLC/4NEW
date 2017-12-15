@@ -11,7 +11,6 @@ contract FRNCoinCrowdsale is Ownable {
   StandardToken public token;
 
   // start and end timestamps where investments are allowed (both inclusive)
-  uint256 public startTime;
   uint256 public endTime;
 
   // address where funds are collected
@@ -35,20 +34,18 @@ contract FRNCoinCrowdsale is Ownable {
 
 
   function FRNCoinCrowdsale(
-    uint256 _startTime,
     uint256 _endTime,
     uint256 _rate,
     address _wallet,
     address tokenAddress,
     address _tokenHolder
   ) Ownable() {
-    require(_endTime >= _startTime);
+    require(_endTime > 0);
     require(_rate > 0);
     require(_wallet != 0x0);
     require(_tokenHolder != 0x0);
 
     token = StandardToken(tokenAddress);
-    startTime = _startTime;
     endTime = _endTime;
     rate = _rate;
     wallet = _wallet;
@@ -56,7 +53,7 @@ contract FRNCoinCrowdsale is Ownable {
   }
 
   // fallback function can be used to buy tokens
-  function () payable {
+  function () public payable {
     buyTokens(msg.sender);
   }
 
@@ -87,7 +84,6 @@ contract FRNCoinCrowdsale is Ownable {
   }
 
   function updateEndTime(uint256 _endTime) onlyOwner external returns (bool){
-    require(_endTime > startTime);
     endTime = _endTime;
     return true;
   }
@@ -121,9 +117,8 @@ contract FRNCoinCrowdsale is Ownable {
 
   // @return true if the transaction can buy tokens
   function validPurchase() internal constant returns (bool) {
-    bool withinPeriod = now >= startTime && now <= endTime;
     bool nonZeroPurchase = msg.value != 0;
-    return withinPeriod && nonZeroPurchase;
+    return !hasEnded() && nonZeroPurchase;
   }
 
   // @return true if crowdsale event has ended
